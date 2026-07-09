@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #1b1035;
+  background-image: radial-gradient(circle at 20% 20%, #2a1a55 0%, #1b1035 55%);
+  color: white;
+}
+
+.font-display {
+  font-family: "Baloo 2", sans-serif;
+}
+
+.tile-btn {
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+.tile-btn:active {
+  transform: translateY(4px);
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-btn {
+    transition: none;
+  }
+}
