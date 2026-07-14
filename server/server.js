@@ -12,9 +12,24 @@ const registerSocketHandlers = require("./sockets");
 const app = express();
 const server = http.createServer(app);
 
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
+const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173,https://quiz-app-delta-sandy-38.vercel.app")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+  .map((origin) => origin.replace(/\/$/, ""));
 
-app.use(cors({ origin: CLIENT_URL }));
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
@@ -23,7 +38,17 @@ app.use("/api/quizzes", quizRoutes);
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
 const io = new Server(server, {
-  cors: { origin: CLIENT_URL, methods: ["GET", "POST"] },
+  cors: {
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error("Not allowed by Socket.IO CORS"));
+    },
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 registerSocketHandlers(io);
