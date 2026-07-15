@@ -6,7 +6,7 @@ A full-stack **real-time Quiz Application** inspired by platforms like **Kahoot*
 
 ## 🌐 Live Deployments
 
-- Frontend: https://quiz-app-delta-sandy-38.vercel.app/
+- Frontend: https://quiz-app-bymanisha.vercel.app/
 - Backend: https://quizapp-hzh1.onrender.com
 
 ---
