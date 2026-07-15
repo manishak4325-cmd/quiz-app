@@ -1,16 +1,19 @@
 import axios from "axios";
 
-console.log("API URL =", import.meta.env.VITE_API_URL);
-
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "https://quizapp-hzh1.onrender.com/api",
 });
 
+console.log("BASE URL =", api.defaults.baseURL);
+
 api.interceptors.request.use((config) => {
-  console.log("FULL REQUEST:", config.baseURL + config.url);
+  console.log("REQUEST:", config.baseURL + config.url);
 
   const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
   return config;
 });
